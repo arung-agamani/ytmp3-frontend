@@ -20,6 +20,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
+    "socket.io-client": "^4.2.0",
     "tailwindcss": "2.x",
     "typescript": "4.x"
   },
