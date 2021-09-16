@@ -7,3 +7,10 @@ export interface DownloadCardProps {
   createdAt: Date;
   remainingAge: Date;
 }
+
+export interface DownloadConvertEvent {
+  isDownloading: number;
+  downloadProgress: number;
+  isConverting: number;
+  convertProgress: number;
+}

@@ -1,5 +1,6 @@
 import React from "react";
-import { DownloadCardProps } from "../interfaces/Cards";
+import { DownloadCardProps, DownloadConvertEvent } from "../interfaces/Cards";
+import { BASE_URL } from "../consts";
 
 function transformSize(size: number): string {
   if (size >= 1024 * 1024 * 1024) {
@@ -30,16 +31,48 @@ function transformDuration(duration: number): string {
   } ${seconds > 0 ? `${seconds} seconds ` : ""}`;
 }
 
-const DownloadCard: React.FC<DownloadCardProps> = (props) => {
+const DownloadCard: React.FC<DownloadCardProps & DownloadConvertEvent> = (
+  props
+) => {
   const downloadLink = () => {
-    window.open(`http://localhost:5000/download/${props.downloadId}`);
+    if (props.isConverting === 2 && props.isDownloading === 2)
+      window.open(`${BASE_URL}/download/${props.downloadId}`);
   };
   return (
     <div className="flex flex-col text-left p-8 bg-blue-100 shadow-lg">
       <p className="text-3xl">{props.videoTitle}</p>
-      <p className="text-xl">Size: {transformSize(props.size)}</p>
+      {/* <p className="text-xl">Size: {transformSize(props.size)}</p> */}
       <p className="text-xl">Duration: {transformDuration(props.duration)}</p>
-      <p className="text-xl text-blue-600" onClick={downloadLink}>
+      <p className="text-xl">
+        Download Status :
+        {props.isDownloading === -1
+          ? "Not Started"
+          : props.isDownloading === 0
+          ? "Started"
+          : props.isDownloading === 1
+          ? `Downloading : ${props.downloadProgress}`
+          : props.isDownloading === 2
+          ? "Done"
+          : "What the fuk"}
+      </p>
+      <p className="text-xl">
+        Conversion Status :
+        {props.isConverting === -1
+          ? "Not Started"
+          : props.isConverting === 0
+          ? "Started"
+          : props.isConverting === 1
+          ? `Converting : ${props.convertProgress}`
+          : props.isConverting === 2
+          ? "Done"
+          : "What the fuk"}
+      </p>
+      <p
+        className={`text-xl cursor-pointer ${
+          props.isConverting === 2 && "text-blue-600"
+        }`}
+        onClick={downloadLink}
+      >
         Download Here
       </p>
     </div>
